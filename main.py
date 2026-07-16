@@ -1,0 +1,37 @@
+import customtkinter as ctk
+import settings
+
+from ui.menu import MainMenu
+
+
+class SpaceWarrior(ctk.CTk):
+
+    def __init__(self):
+        super().__init__()
+
+        ctk.set_appearance_mode(settings.THEME)
+        ctk.set_default_color_theme(settings.COLOR_THEME)
+
+        self.title(settings.TITLE)
+        self.geometry(f"{settings.WINDOW_WIDTH}x{settings.WINDOW_HEIGHT}")
+        self.resizable(False, False)
+
+        self.current_screen = None
+
+        self.show_menu()
+
+    def change_screen(self, screen):
+
+        if self.current_screen is not None:
+            self.current_screen.destroy()
+
+        self.current_screen = screen(self)
+        self.current_screen.pack(fill="both", expand=True)
+
+    def show_menu(self):
+        self.change_screen(MainMenu)
+
+
+if __name__ == "__main__":
+    app = SpaceWarrior()
+    app.mainloop()
