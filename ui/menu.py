@@ -1,5 +1,10 @@
 import customtkinter as ctk
 
+import settings
+from game import GameScreen
+
+from ui.widgets import GameButton
+
 
 class MainMenu(ctk.CTkFrame):
 
@@ -8,86 +13,118 @@ class MainMenu(ctk.CTkFrame):
 
         self.parent = parent
 
-        # Background
-        self.configure(fg_color="#0B1020")
+        self.configure(
+            fg_color=settings.BACKGROUND
+        )
 
         self.create_widgets()
 
     def create_widgets(self):
 
-        # ======================
-        # Title
-        # ======================
-
-        title = ctk.CTkLabel(
+        container = ctk.CTkFrame(
             self,
-            text="SPACE WARRIOR",
-            font=("Arial", 42, "bold"),
-            text_color="#FFFFFF"
+            fg_color="transparent"
         )
 
-        title.pack(pady=(80, 10))
+        container.place(
+            relx=0.5,
+            rely=0.5,
+            anchor="center"
+        )
+
+        # -----------------------
+        # Title
+        # -----------------------
+
+        title = ctk.CTkLabel(
+
+            container,
+
+            text="SPACE WARRIOR",
+
+            font=(
+                settings.FONT,
+                settings.TITLE_SIZE
+            ),
+
+            text_color=settings.WHITE,
+
+            justify="center"
+        )
+
+        title.pack(pady=(0, 15))
 
         subtitle = ctk.CTkLabel(
-            self,
-            text="Endless Space Battle",
-            font=("Arial", 18),
-            text_color="#A0A0A0"
+
+            container,
+
+            text="- ENDLESS SPACE BATTLE -",
+
+            font=(
+                settings.FONT,
+                settings.SUBTITLE_SIZE
+            ),
+
+            text_color=settings.WHITE
+
         )
 
         subtitle.pack(pady=(0, 50))
 
-        # ======================
+        # -----------------------
         # Buttons
-        # ======================
+        # -----------------------
 
-        play_button = ctk.CTkButton(
+        GameButton(
+            container,
+            "PLAY",
+            self.play_game
+        ).pack(pady=8)
+
+        GameButton(
+            container,
+            "HIGH SCORES",
+            self.high_scores
+        ).pack(pady=8)
+
+        GameButton(
+            container,
+            "SETTINGS",
+            self.settings
+        ).pack(pady=8)
+
+        GameButton(
+            container,
+            "EXIT",
+            self.parent.destroy
+        ).pack(pady=8)
+
+        version = ctk.CTkLabel(
+
             self,
-            text="PLAY",
-            width=250,
-            height=45,
-            command=self.play_game
+
+            text="v1.0",
+
+            text_color=settings.WHITE,
+
+            font=(
+                settings.FONT,
+                12
+            )
+
         )
 
-        play_button.pack(pady=10)
-
-        highscore_button = ctk.CTkButton(
-            self,
-            text="HIGH SCORES",
-            width=250,
-            height=45,
-            command=self.show_highscores
+        version.place(
+            relx=0.98,
+            rely=0.98,
+            anchor="se"
         )
-
-        highscore_button.pack(pady=10)
-
-        settings_button = ctk.CTkButton(
-            self,
-            text="SETTINGS",
-            width=250,
-            height=45,
-            command=self.open_settings
-        )
-
-        settings_button.pack(pady=10)
-
-        exit_button = ctk.CTkButton(
-            self,
-            text="EXIT",
-            width=250,
-            height=45,
-            fg_color="#C0392B",
-            hover_color="#922B21",
-            command=self.parent.destroy
-        )
-
-        exit_button.pack(pady=10)
 
     def play_game(self):
-        print("Play Game")
+        self.parent.change_screen(GameScreen)
 
-    def show_highscores(self):
+    def high_scores(self):
         print("High Scores")
 
-    def open_settings(self):
+    def settings(self):
         print("Settings")
