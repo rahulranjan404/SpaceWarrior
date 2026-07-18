@@ -43,6 +43,8 @@ class Missile:
         self.vx = self.speed * math.sin(radians)
         self.vy = -self.speed * math.cos(radians)
 
+        self.radius = 4
+
     def update(self):
 
         self.canvas.move(

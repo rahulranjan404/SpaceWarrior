@@ -12,6 +12,8 @@ class Player:
         self.width = settings.PLAYER_WIDTH
         self.height = settings.PLAYER_HEIGHT
 
+        self.radius = self.width * 0.30
+
         self.x = settings.WINDOW_WIDTH // 2
         self.y = settings.WINDOW_HEIGHT - 120
 

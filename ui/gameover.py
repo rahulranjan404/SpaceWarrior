@@ -1,0 +1,66 @@
+import customtkinter as ctk
+import settings
+
+from ui.widgets import GameButton
+
+
+class GameOverMenu(ctk.CTkFrame):
+
+    def __init__(self, parent, restart_callback, exit_callback):
+
+        super().__init__(
+            parent,
+            fg_color="#000000"
+        )
+
+        # Full-screen overlay
+        self.place(
+            relx=0,
+            rely=0,
+            relwidth=1,
+            relheight=1
+        )
+
+        # Center panel
+        panel = ctk.CTkFrame(
+            self,
+            width=420,
+            height=320,
+            fg_color=settings.BLACK,
+            border_width=2,
+            border_color=settings.WHITE,
+            corner_radius=0
+        )
+
+        panel.place(
+            relx=0.5,
+            rely=0.5,
+            anchor="center"
+        )
+
+        panel.pack_propagate(False)
+
+        title = ctk.CTkLabel(
+            panel,
+            text="GAME OVER",
+            font=(settings.FONT, 42),
+            text_color=settings.WHITE
+        )
+
+        title.pack(pady=(40, 40))
+
+        GameButton(
+            panel,
+            text="RESTART",
+            command=restart_callback,
+            width=220,
+            height=45
+        ).pack(pady=10)
+
+        GameButton(
+            panel,
+            text="EXIT",
+            command=exit_callback,
+            width=220,
+            height=45
+        ).pack(pady=10)

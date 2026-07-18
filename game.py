@@ -4,9 +4,17 @@ from entities.player import Player
 import settings
 from engine.background import StarField
 
+from ui.gameover import GameOverMenu
+
+from collision import circle_collision
+
 from ui.widgets import GameButton
 
 import time
+import random
+
+from entities.asteroid import Asteroid
+
 
 from entities.missile import Missile
 
@@ -17,6 +25,11 @@ class GameScreen(ctk.CTkFrame):
         self.missiles = []
 
         self.last_shot = 0
+
+        self.asteroids = []
+
+        self.last_asteroid_spawn = 0
+
 
         super().__init__(parent)
 
@@ -150,8 +163,18 @@ class GameScreen(ctk.CTkFrame):
         if not self.is_paused:
 
             self.background.update()
+
             self.player.update()
+
             self.update_missiles()
+
+            self.spawn_asteroid()
+
+            self.update_asteroids()
+
+            self.check_collisions()
+
+            self.check_player_collision()
 
         self.after(16, self.update)
 
@@ -221,3 +244,125 @@ class GameScreen(ctk.CTkFrame):
                 missile.destroy()
 
                 self.missiles.remove(missile)
+
+    def spawn_asteroid(self):
+
+        current = time.time() * 1000
+
+        if (
+            current - self.last_asteroid_spawn
+            < settings.ASTEROID_SPAWN_DELAY
+        ):
+            return
+
+        self.last_asteroid_spawn = current
+
+        self.asteroids.append(
+            Asteroid(self.canvas)
+        )
+
+    def update_asteroids(self):
+
+        for asteroid in self.asteroids[:]:
+
+            asteroid.update()
+
+            if asteroid.is_offscreen():
+
+                asteroid.destroy()
+
+                self.asteroids.remove(asteroid)
+
+    def check_collisions(self):
+
+        for missile in self.missiles[:]:
+
+            missile_x, missile_y = self.canvas.coords(
+                missile.sprite
+            )
+
+            for asteroid in self.asteroids[:]:
+
+                asteroid_x, asteroid_y = self.canvas.coords(
+                    asteroid.sprite
+                )
+
+                if circle_collision(
+
+                    missile_x,
+                    missile_y,
+                    missile.radius,
+
+                    asteroid_x,
+                    asteroid_y,
+                    asteroid.radius
+
+                ):
+
+                    missile.destroy()
+                    self.missiles.remove(missile)
+
+                    destroyed = asteroid.take_damage()
+
+                    if destroyed:
+
+                        asteroid.destroy()
+
+                        self.asteroids.remove(asteroid)
+
+                    break
+
+    def check_player_collision(self):
+
+        player_x = self.player.x
+        player_y = self.player.y
+
+        for asteroid in self.asteroids[:]:
+
+            asteroid_x, asteroid_y = self.canvas.coords(
+                asteroid.sprite
+            )
+
+            if circle_collision(
+
+                player_x,
+                player_y,
+                self.player.radius,
+
+                asteroid_x,
+                asteroid_y,
+                asteroid.radius
+
+            ):
+
+                self.show_game_over()
+
+                return
+
+    def show_game_over(self):
+
+        self.is_paused = True
+
+        self.game_over_menu = GameOverMenu(
+            self,
+            restart_callback=self.restart_game,
+            exit_callback=self.exit_game
+        )
+
+    
+    def restart_game(self):
+
+        self.destroy()
+
+        from game import GameScreen
+
+        game = GameScreen(self.parent)
+
+        game.pack(fill="both", expand=True)
+
+
+    def exit_game(self):
+
+        self.destroy()
+
+        self.parent.show_menu()
