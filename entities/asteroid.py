@@ -12,6 +12,8 @@ class Asteroid:
         # -----------------------------
         # Random properties
         # -----------------------------
+        self.knockback_x = 0
+        self.knockback_y = 0
 
         self.size = random.randint(
             settings.ASTEROID_MIN_SIZE,
@@ -65,19 +67,25 @@ class Asteroid:
 
         if self.size <= 60:
             self.hp = 1
+            self.mass = 1
 
         elif self.size <= 75:
             self.hp = 2
+            self.mass = 2
 
         else:
             self.hp = 3
+            self.mass = 3
 
     # =====================================
 
     def update(self):
 
-        self.x += self.vx
-        self.y += self.vy
+        self.x += self.vx + self.knockback_x
+        self.y += self.vy + self.knockback_y
+
+        self.knockback_x *= 0.85
+        self.knockback_y *= 0.85
 
         self.angle += self.rotation_speed
 
@@ -118,3 +126,10 @@ class Asteroid:
     def destroy(self):
 
         self.canvas.delete(self.sprite)
+
+    def apply_knockback(self, dx, dy):
+
+        strength = 2.5 / self.mass
+    
+        self.knockback_x += dx * strength
+        self.knockback_y += dy * strength

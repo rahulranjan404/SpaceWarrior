@@ -287,12 +287,17 @@ class GameScreen(ctk.CTkFrame):
             missile_x, missile_y = self.canvas.coords(
                 missile.sprite
             )
+            missile_x, missile_y = self.canvas.coords(missile.sprite)
 
+           
             for asteroid in self.asteroids[:]:
 
+                
+                
                 asteroid_x, asteroid_y = self.canvas.coords(
                     asteroid.sprite
                 )
+
 
                 if circle_collision(
 
@@ -305,6 +310,10 @@ class GameScreen(ctk.CTkFrame):
                     asteroid.radius
 
                 ):
+                    asteroid.apply_knockback(
+                            missile.vx*0.2,
+                            missile.vy*0.2
+                        )
                     self.create_explosion(
                     asteroid_x,
                     asteroid_y,
@@ -318,7 +327,7 @@ class GameScreen(ctk.CTkFrame):
                     destroyed = asteroid.take_damage()
 
                     if destroyed:
-                        
+
                         self.create_explosion(
                         asteroid_x,
                         asteroid_y,
