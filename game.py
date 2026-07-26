@@ -4,6 +4,9 @@ from entities.player import Player
 import settings
 from engine.background import StarField
 
+
+from entities.explosion import Explosion
+
 from ui.gameover import GameOverMenu
 
 from collision import circle_collision
@@ -27,6 +30,8 @@ class GameScreen(ctk.CTkFrame):
         self.last_shot = 0
 
         self.asteroids = []
+
+        self.explosions = []
 
         self.last_asteroid_spawn = 0
 
@@ -176,6 +181,8 @@ class GameScreen(ctk.CTkFrame):
 
             self.check_player_collision()
 
+            self.update_explosions()
+
         self.after(16, self.update)
 
     def key_press(self, event):
@@ -298,6 +305,12 @@ class GameScreen(ctk.CTkFrame):
                     asteroid.radius
 
                 ):
+                    self.create_explosion(
+                    asteroid_x,
+                    asteroid_y,
+                    "impact",
+                    40
+                )
 
                     missile.destroy()
                     self.missiles.remove(missile)
@@ -305,6 +318,13 @@ class GameScreen(ctk.CTkFrame):
                     destroyed = asteroid.take_damage()
 
                     if destroyed:
+                        
+                        self.create_explosion(
+                        asteroid_x,
+                        asteroid_y,
+                        "destroy",
+                        asteroid.size
+                    )
 
                         asteroid.destroy()
 
@@ -366,3 +386,28 @@ class GameScreen(ctk.CTkFrame):
         self.destroy()
 
         self.parent.show_menu()
+
+    def create_explosion(self, x, y, explosion_type="impact", size=64):
+
+        self.explosions.append(
+
+            Explosion(
+                self.canvas,
+                x,
+                y,
+                explosion_type,
+                size
+            )
+
+        )
+
+
+    def update_explosions(self):
+
+        for explosion in self.explosions[:]:
+
+            explosion.update()
+
+            if explosion.finished:
+
+                self.explosions.remove(explosion)
