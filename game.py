@@ -35,6 +35,10 @@ class GameScreen(ctk.CTkFrame):
 
         self.last_asteroid_spawn = 0
 
+        self.pending_game_over = False
+
+        self.player_explosion = None
+
 
         super().__init__(parent)
 
@@ -181,7 +185,7 @@ class GameScreen(ctk.CTkFrame):
 
             self.check_player_collision()
 
-            self.update_explosions()
+        self.update_explosions()
 
         self.after(16, self.update)
 
@@ -363,8 +367,21 @@ class GameScreen(ctk.CTkFrame):
                 asteroid.radius
 
             ):
+                # Freeze gameplay
+                self.is_paused = True
 
-                self.show_game_over()
+                # Remove player sprite
+                self.canvas.delete(self.player.sprite)
+
+                # Create explosion
+                self.player_explosion = self.create_explosion(
+                    player_x,
+                    player_y,
+                    "destroy",
+                    110
+                )
+
+                self.pending_game_over = True
 
                 return
 
@@ -398,18 +415,17 @@ class GameScreen(ctk.CTkFrame):
 
     def create_explosion(self, x, y, explosion_type="impact", size=64):
 
-        self.explosions.append(
-
-            Explosion(
-                self.canvas,
-                x,
-                y,
-                explosion_type,
-                size
-            )
-
+        explosion = Explosion(
+            self.canvas,
+            x,
+            y,
+            explosion_type,
+            size
         )
 
+        self.explosions.append(explosion)
+
+        return explosion
 
     def update_explosions(self):
 
@@ -418,5 +434,11 @@ class GameScreen(ctk.CTkFrame):
             explosion.update()
 
             if explosion.finished:
+
+                if explosion == self.player_explosion and self.pending_game_over:
+
+                    self.pending_game_over = False
+
+                    self.show_game_over()
 
                 self.explosions.remove(explosion)
