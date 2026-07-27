@@ -4,6 +4,7 @@ from entities.player import Player
 import settings
 from engine.background import StarField
 
+from score import ScoreManager
 
 from entities.explosion import Explosion
 
@@ -38,6 +39,8 @@ class GameScreen(ctk.CTkFrame):
         self.pending_game_over = False
 
         self.player_explosion = None
+
+        self.score_manager = ScoreManager()
 
 
         super().__init__(parent)
