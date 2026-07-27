@@ -6,14 +6,23 @@ from ui.widgets import GameButton
 
 class GameOverMenu(ctk.CTkFrame):
 
-    def __init__(self, parent, restart_callback, exit_callback):
+    
+
+    def __init__(
+        self,
+        parent,
+        restart_callback,
+        exit_callback,
+        score,
+        highscore
+    ):
 
         super().__init__(
             parent,
             fg_color="#000000"
         )
 
-        # Full-screen overlay
+        #Full-screen overlay
         self.place(
             relx=0,
             rely=0,
@@ -25,7 +34,7 @@ class GameOverMenu(ctk.CTkFrame):
         panel = ctk.CTkFrame(
             self,
             width=420,
-            height=320,
+            height=360,
             fg_color=settings.BLACK,
             border_width=2,
             border_color=settings.WHITE,
@@ -46,8 +55,25 @@ class GameOverMenu(ctk.CTkFrame):
             font=(settings.FONT, 42),
             text_color=settings.WHITE
         )
-
         title.pack(pady=(40, 40))
+
+        score_label = ctk.CTkLabel(
+            panel,
+            text=f"SCORE : {score}",
+            font=(settings.FONT, 20),
+            text_color=settings.WHITE
+        )
+        score_label.pack(pady=(0, 8))
+
+        highscore_label = ctk.CTkLabel(
+            panel,
+            text=f"HIGH SCORE : {highscore}",
+            font=(settings.FONT, 20),
+            text_color=settings.WHITE
+            )
+        highscore_label.pack(pady=(0, 25))
+
+        
 
         GameButton(
             panel,
