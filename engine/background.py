@@ -10,6 +10,7 @@ class StarField:
         self.height = height
 
         self.stars = []
+        self.speed_multiplier = 1.0
 
         self.create_layer(70, 1, (1, 2))
         self.create_layer(45, 2, (2, 3))
@@ -46,7 +47,7 @@ class StarField:
             self.canvas.move(
                 star["id"],
                 0,
-                star["speed"]
+                star["speed"] * self.speed_multiplier
             )
 
             x1, y1, x2, y2 = self.canvas.coords(star["id"])

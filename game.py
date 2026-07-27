@@ -42,6 +42,9 @@ class GameScreen(ctk.CTkFrame):
 
         self.score_manager = ScoreManager()
 
+        self.game_time = 0
+        self.speed_multiplier = 1.0
+
 
 
         super().__init__(parent)
@@ -175,6 +178,17 @@ class GameScreen(ctk.CTkFrame):
 
         if not self.is_paused:
 
+            # ~60 FPS
+            self.game_time += 1
+
+            # Increase slowly over time (max 3x)
+            self.speed_multiplier = min(
+                3.0,
+                1 + self.game_time / 3600
+            )
+
+            self.background.speed_multiplier = self.speed_multiplier
+
             self.background.update()
 
             self.player.update()
@@ -280,6 +294,7 @@ class GameScreen(ctk.CTkFrame):
 
         for asteroid in self.asteroids[:]:
 
+            asteroid.speed_multiplier = self.speed_multiplier
             asteroid.update()
 
             if asteroid.is_offscreen():

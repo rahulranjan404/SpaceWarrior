@@ -14,7 +14,7 @@ class Asteroid:
         # -----------------------------
         self.knockback_x = 0
         self.knockback_y = 0
-
+        self.speed_multiplier = 1.0
         self.size = random.randint(
             settings.ASTEROID_MIN_SIZE,
             settings.ASTEROID_MAX_SIZE
@@ -81,8 +81,8 @@ class Asteroid:
 
     def update(self):
 
-        self.x += self.vx + self.knockback_x
-        self.y += self.vy + self.knockback_y
+        self.x += (self.vx * self.speed_multiplier) + self.knockback_x
+        self.y += (self.vy * self.speed_multiplier) + self.knockback_y
 
         self.knockback_x *= 0.85
         self.knockback_y *= 0.85
@@ -130,6 +130,6 @@ class Asteroid:
     def apply_knockback(self, dx, dy):
 
         strength = 2.5 / self.mass
-    
+
         self.knockback_x += dx * strength
         self.knockback_y += dy * strength
