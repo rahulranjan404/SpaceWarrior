@@ -203,6 +203,8 @@ class GameScreen(ctk.CTkFrame):
 
             self.check_player_collision()
 
+            self.update_survival_score()
+
         self.update_explosions()
 
         self.after(16, self.update)
@@ -486,3 +488,15 @@ class GameScreen(ctk.CTkFrame):
         self.score_label.configure(
             text=f"SCORE : {self.score_manager.score}"
     )
+
+    def update_survival_score(self):
+
+        current = time.time() * 1000
+
+        while current - self.last_survival_score >= 200:
+
+            self.score_manager.add(1)
+
+            self.last_survival_score += 200
+
+        self.update_score()
