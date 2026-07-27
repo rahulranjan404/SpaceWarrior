@@ -125,6 +125,18 @@ class MainMenu(ctk.CTkFrame):
 
     def high_scores(self):
         print("High Scores")
+        self.open_leaderboard()
 
     def settings(self):
         print("Settings")
+
+    def open_leaderboard(self):
+
+        self.destroy()
+
+        from ui.leaderboard import Leaderboard
+
+        Leaderboard(
+            self.parent,
+            self.parent.show_menu
+        )
