@@ -43,6 +43,7 @@ class GameScreen(ctk.CTkFrame):
         self.score_manager = ScoreManager()
 
 
+
         super().__init__(parent)
 
         self.parent = parent
@@ -341,7 +342,20 @@ class GameScreen(ctk.CTkFrame):
                         "destroy",
                         asteroid.size
                     )
+                        if asteroid.size <= 60:
+                            points = 10
 
+                        elif asteroid.size <= 75:
+                            points = 20
+
+                        else:
+                            points = 40
+
+                        self.score_manager.add(points)
+
+                        self.update_score()
+
+                    
                         asteroid.destroy()
 
                         self.asteroids.remove(asteroid)
@@ -390,6 +404,7 @@ class GameScreen(ctk.CTkFrame):
 
     def show_game_over(self):
 
+        self.score_manager.save_highscore()
         self.is_paused = True
 
         self.game_over_menu = GameOverMenu(
@@ -445,3 +460,9 @@ class GameScreen(ctk.CTkFrame):
                     self.show_game_over()
 
                 self.explosions.remove(explosion)
+
+    def update_score(self):
+
+        self.score_label.configure(
+            text=f"SCORE : {self.score_manager.score}"
+    )
