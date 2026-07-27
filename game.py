@@ -42,6 +42,8 @@ class GameScreen(ctk.CTkFrame):
 
         self.score_manager = ScoreManager()
 
+        self.last_survival_score = time.time() * 1000
+
         self.game_time = 0
         self.speed_multiplier = 1.0
 
