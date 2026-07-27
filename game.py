@@ -183,8 +183,8 @@ class GameScreen(ctk.CTkFrame):
 
             # Increase slowly over time (max 3x)
             self.speed_multiplier = min(
-                3.0,
-                1 + self.game_time / 3600
+                2.5,
+                1 + self.game_time / 6000
             )
 
             self.background.speed_multiplier = self.speed_multiplier
@@ -276,12 +276,17 @@ class GameScreen(ctk.CTkFrame):
 
     def spawn_asteroid(self):
 
+
+
         current = time.time() * 1000
 
-        if (
-            current - self.last_asteroid_spawn
-            < settings.ASTEROID_SPAWN_DELAY
-        ):
+        # Spawn delay decreases as difficulty increases
+        spawn_delay = settings.ASTEROID_SPAWN_DELAY / self.speed_multiplier
+
+        # Don't let it become ridiculously fast
+        spawn_delay = max(180, spawn_delay)
+
+        if current - self.last_asteroid_spawn < spawn_delay:
             return
 
         self.last_asteroid_spawn = current
