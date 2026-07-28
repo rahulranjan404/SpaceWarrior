@@ -428,15 +428,15 @@ class GameScreen(ctk.CTkFrame):
 
     def show_game_over(self):
 
-        self.score_manager.save_local_highscore("Rahul")
+        self.score_manager.save_local_score("Rahul")
 
-        local = self.score_manager.get_local()
+        bestscore = self.score_manager.get_best_score()
         self.game_over_menu = GameOverMenu(
             self,
             restart_callback=self.restart_game,
             exit_callback=self.exit_game,
             score=self.score_manager.score,
-            highscore=local["score"] 
+            highscore=bestscore
         )
     
     def restart_game(self):

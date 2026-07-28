@@ -67,7 +67,7 @@ class GameOverMenu(ctk.CTkFrame):
 
         highscore_label = ctk.CTkLabel(
             panel,
-            text=f"HIGH SCORE : {highscore}",
+            text=f"HIGH SCORE : {highscore['score']}",
             font=(settings.FONT, 20),
             text_color=settings.WHITE
             )

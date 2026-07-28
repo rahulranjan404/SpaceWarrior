@@ -1,8 +1,30 @@
 {
-    "local": {
-        "name": "Rahul",
-        "score": 406,
-        "time": "27 Jul 2026 19:58"
-    },
+    "local": [
+        {
+            "name": "Rahul",
+            "score": 655,
+            "time": "28 Jul 2026 16:08"
+        },
+        {
+            "name": "Rahul",
+            "score": 110,
+            "time": "28 Jul 2026 16:07"
+        },
+        {
+            "name": "Rahul",
+            "score": 81,
+            "time": "27 Jul 2026 20:12"
+        },
+        {
+            "name": "Rahul",
+            "score": 73,
+            "time": "27 Jul 2026 21:15"
+        },
+        {
+            "name": "Rahul",
+            "score": 9,
+            "time": "27 Jul 2026 20:12"
+        }
+    ],
     "global": []
 }

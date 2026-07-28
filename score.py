@@ -7,24 +7,19 @@ class ScoreManager:
 
     def __init__(self):
 
-        self.score = 0
-
         self.file = "highscores.json"
+        self.score = 0
 
         self.data = self.load_data()
 
-    # -----------------------------
+    # -----------------------------------------
 
     def load_data(self):
 
         if not os.path.exists(self.file):
 
             return {
-                "local": {
-                    "name": "No Player",
-                    "score": 0,
-                    "time": "-"
-                },
+                "local": [],
                 "global": []
             }
 
@@ -32,41 +27,62 @@ class ScoreManager:
 
             return json.load(f)
 
-    # -----------------------------
+    # -----------------------------------------
 
     def save_data(self):
 
         with open(self.file, "w") as f:
 
-            json.dump(self.data, f, indent=4)
+            json.dump(
+                self.data,
+                f,
+                indent=4
+            )
 
-    # -----------------------------
+    # -----------------------------------------
 
     def add(self, points):
 
         self.score += points
 
-    # -----------------------------
+    # -----------------------------------------
 
-    def save_local_highscore(self, player_name):
+    def save_local_score(self, name):
 
-        if self.score <= self.data["local"]["score"]:
-            return
+        self.data["local"].append({
 
-        self.data["local"] = {
-
-            "name": player_name,
+            "name": name,
 
             "score": self.score,
 
             "time": datetime.now().strftime("%d %b %Y %H:%M")
 
-        }
+        })
+
+        self.data["local"].sort(
+
+            key=lambda x: x["score"],
+
+            reverse=True
+
+        )
+
+        self.data["local"] = self.data["local"][:100]
 
         self.save_data()
 
-    # -----------------------------
+    # -----------------------------------------
 
-    def get_local(self):
+    def get_local_scores(self):
 
         return self.data["local"]
+
+    # -----------------------------------------
+
+    def get_best_score(self):
+
+        if len(self.data["local"]) == 0:
+
+            return None
+
+        return self.data["local"][0]
