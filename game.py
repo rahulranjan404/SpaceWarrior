@@ -170,7 +170,93 @@ class GameScreen(ctk.CTkFrame):
 
     def pause_game(self):
 
-        print("Pause")
+       
+
+        if self.is_paused:
+            self.resume_game()
+        else:
+            self.show_pause_menu()
+
+    def show_pause_menu(self):
+
+        self.is_paused = True
+
+        self.pause_button.configure(text="RESUME")
+
+        # Dark overlay
+        self.pause_overlay = ctk.CTkFrame(
+            self,
+            fg_color="transparent"
+        )
+
+        self.pause_overlay.place(
+            relx=0,
+            rely=0,
+            relwidth=1,
+            relheight=1
+        )
+
+        # Center box
+        box = ctk.CTkFrame(
+            self.pause_overlay,
+            width=500,
+            height=430,
+            fg_color="black",
+            border_width=3,
+            border_color="white",
+            corner_radius=0
+        )
+
+        box.place(relx=0.5, rely=0.5, anchor="center")
+        box.pack_propagate(False)
+
+        # Title
+        ctk.CTkLabel(
+            box,
+            text="PAUSED",
+            font=(settings.FONT, 42),
+            text_color="white"
+        ).pack(pady=(40, 35))
+
+        # Score
+        ctk.CTkLabel(
+            box,
+            text=f"SCORE : {self.score_manager.score}",
+            font=(settings.FONT, 24),
+            text_color="white"
+        ).pack(pady=8)
+
+        # Highscore
+        ctk.CTkLabel(
+            box,
+            text=f"HIGH SCORE : {self.score_manager.get_best_score()['score']}",
+            font=(settings.FONT, 24),
+            text_color="white"
+        ).pack(pady=(0, 40))
+
+        # Resume
+        GameButton(
+            box,
+            text="RESUME",
+            width=240,
+            command=self.resume_game
+        ).pack(pady=8)
+
+        # Exit
+        GameButton(
+            box,
+            text="EXIT",
+            width=240,
+            command=self.exit_game
+        ).pack(pady=8)
+
+    def resume_game(self):
+
+        self.is_paused = False
+
+        self.pause_button.configure(text="PAUSE")
+
+        self.pause_overlay.destroy()
 
     # ======================================
     # GAME LOOP
