@@ -514,7 +514,7 @@ class GameScreen(ctk.CTkFrame):
 
     def show_game_over(self):
 
-        self.score_manager.save_local_score("Rahul")
+        self.score_manager.save_local_score("PLAYER")
 
         bestscore = self.score_manager.get_best_score()
         self.game_over_menu = GameOverMenu(
