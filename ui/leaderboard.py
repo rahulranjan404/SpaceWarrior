@@ -130,12 +130,29 @@ class Leaderboard(ctk.CTkFrame):
             text_color="white"
         ).pack()
 
-        ctk.CTkLabel(
+        name_frame = ctk.CTkFrame(
             card,
+            fg_color="transparent"
+        )
+
+        name_frame.pack(pady=8)
+
+        ctk.CTkLabel(
+            name_frame,
             text=best["name"],
-            font=(settings.FONT, 24),
+            font=(settings.FONT,24),
             text_color="white"
-        ).pack(pady=8)
+        ).pack(side="left")
+
+        ctk.CTkButton(
+            name_frame,
+            text="✎",
+            width=28,
+            height=28,
+            fg_color="transparent",
+            hover_color="#333333",
+            command=lambda: self.edit_name(0)
+        ).pack(side="left", padx=6)
 
         ctk.CTkLabel(
             card,
@@ -156,7 +173,7 @@ class Leaderboard(ctk.CTkFrame):
             corner_radius=0
         )
 
-        table.pack(pady=20)
+        table.pack(pady=(5,20))
 
         # Header
 
@@ -195,6 +212,7 @@ class Leaderboard(ctk.CTkFrame):
 
         # Rows
 
+
         if len(self.local_scores) <= 1:
 
             ctk.CTkLabel(
@@ -210,31 +228,82 @@ class Leaderboard(ctk.CTkFrame):
 
                 row = ctk.CTkFrame(
                     table,
-                    fg_color="black"
+                    fg_color="black",
+                    height=35
                 )
 
-                row.pack(fill="x", pady=2)
+                row.pack(fill="x", pady=1)
+                row.pack_propagate(False)
 
-                values = [
-                    f"#{rank}",
-                    str(score["score"]),
-                    score["time"],
-                    score["name"]
-                ]
+                # Fixed column widths
+                row.grid_columnconfigure(0, minsize=70)
+                row.grid_columnconfigure(1, minsize=150)
+                row.grid_columnconfigure(2, minsize=300)
+                row.grid_columnconfigure(3, minsize=180)
 
-                widths = [70, 150, 300, 180]
+                # ---------------- Rank ----------------
 
-                for value, width in zip(values, widths):
+                ctk.CTkLabel(
+                    row,
+                    text=f"#{rank}",
+                    font=(settings.FONT, 16),
+                    text_color="white"
+                ).grid(row=0, column=0)
 
-                    ctk.CTkLabel(
-                        row,
-                        text=value,
-                        width=width,
-                        anchor="center",
-                        font=(settings.FONT, 16),
-                        text_color="white"
-                    ).pack(side="left")
+                # ---------------- Score ----------------
 
+                ctk.CTkLabel(
+                    row,
+                    text=str(score["score"]),
+                    font=(settings.FONT, 16),
+                    text_color="white"
+                ).grid(row=0, column=1)
+
+                # ---------------- Date ----------------
+
+                ctk.CTkLabel(
+                    row,
+                    text=score["time"],
+                    font=(settings.FONT, 16),
+                    text_color="white"
+                ).grid(row=0, column=2)
+
+                # ---------------- Name ----------------
+
+                name_frame = ctk.CTkFrame(
+                    row,
+                    fg_color="transparent"
+                )
+
+                name_frame.grid(
+                    row=0,
+                    column=3
+                )
+
+                ctk.CTkLabel(
+                    name_frame,
+                    text=score["name"],
+                    font=(settings.FONT, 16),
+                    text_color="white"
+                ).pack(side="left")
+
+                ctk.CTkButton(
+                    name_frame,
+                    text="✎",
+                    width=22,
+                    height=22,
+                    fg_color="transparent",
+                    hover_color="#333333",
+                    command=lambda i=rank-1: self.edit_name(i)
+                ).pack(side="left", padx=(5, 0))
+
+                # Divider
+
+                ctk.CTkFrame(
+                    table,
+                    height=1,
+                    fg_color="#404040"
+                ).pack(fill="x")
  
     # --------------------------------------------------
 
@@ -243,3 +312,58 @@ class Leaderboard(ctk.CTkFrame):
         self.destroy()
 
         self.back_callback()
+
+    def edit_name(self, index):
+
+        popup = ctk.CTkToplevel(self)
+
+        popup.title("Edit Name")
+
+        popup.geometry("350x170")
+
+        popup.resizable(False, False)
+
+        popup.grab_set()
+
+        ctk.CTkLabel(
+            popup,
+            text="Player Name",
+            font=(settings.FONT, 20)
+        ).pack(pady=(20,10))
+
+        entry = ctk.CTkEntry(
+            popup,
+            width=220
+        )
+
+        entry.pack()
+
+        entry.insert(0, self.local_scores[index]["name"])
+
+        entry.focus()
+
+        def save():
+
+            name = entry.get().strip()
+
+            if name == "":
+                return
+
+            self.score_manager.update_name(index, name)
+
+            popup.destroy()
+
+            self.destroy()
+
+            Leaderboard(
+                self.master,
+                self.back_callback
+            )
+
+        ctk.CTkButton(
+            popup,
+            text="Save",
+            command=save
+        ).pack(pady=20)
+
+        entry.bind("<Return>", lambda e: save())

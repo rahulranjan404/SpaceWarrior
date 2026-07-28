@@ -86,3 +86,9 @@ class ScoreManager:
             return None
 
         return self.data["local"][0]
+    
+    def update_name(self, index, new_name):
+
+        self.data["local"][index]["name"] = new_name
+
+        self.save_data()
