@@ -119,17 +119,17 @@ class GameScreen(ctk.CTkFrame):
             pady=8
         )
 
-        self.health_label = ctk.CTkLabel(
-            self.hud,
-            text="❤ ❤ ❤",
-            font=(settings.FONT, 18),
-            text_color=settings.WHITE
-        )
+        # self.health_label = ctk.CTkLabel(
+        #     self.hud,
+        #     text="❤ ❤ ❤",
+        #     font=(settings.FONT, 18),
+        #     text_color=settings.WHITE
+        # )
 
-        self.health_label.pack(
-            side="right",
-            padx=20
-        )
+        # self.health_label.pack(
+        #     side="right",
+        #     padx=20
+        # )
 
     # ======================================
     # GAME CANVAS
