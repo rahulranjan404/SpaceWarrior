@@ -46,6 +46,11 @@
             "time": "28 Jul 2026 20:23"
         },
         {
+            "name": "PLAYER",
+            "score": 699,
+            "time": "29 Jul 2026 20:25"
+        },
+        {
             "name": "RAHUL",
             "score": 655,
             "time": "28 Jul 2026 16:08"
@@ -61,9 +66,19 @@
             "time": "28 Jul 2026 20:17"
         },
         {
+            "name": "PLAYER",
+            "score": 483,
+            "time": "29 Jul 2026 20:27"
+        },
+        {
             "name": "Rahul",
             "score": 435,
             "time": "28 Jul 2026 23:46"
+        },
+        {
+            "name": "PLAYER",
+            "score": 423,
+            "time": "29 Jul 2026 20:27"
         },
         {
             "name": "Rahul",
@@ -79,6 +94,11 @@
             "name": "Rahul",
             "score": 328,
             "time": "28 Jul 2026 20:21"
+        },
+        {
+            "name": "PLAYER",
+            "score": 248,
+            "time": "29 Jul 2026 20:25"
         },
         {
             "name": "Rahul",
@@ -122,8 +142,18 @@
         },
         {
             "name": "PLAYER",
+            "score": 28,
+            "time": "29 Jul 2026 20:23"
+        },
+        {
+            "name": "PLAYER",
             "score": 23,
             "time": "29 Jul 2026 18:47"
+        },
+        {
+            "name": "PLAYER",
+            "score": 13,
+            "time": "29 Jul 2026 20:23"
         },
         {
             "name": "Rahul",
@@ -144,6 +174,11 @@
             "name": "Rahul",
             "score": 9,
             "time": "27 Jul 2026 20:12"
+        },
+        {
+            "name": "PLAYER",
+            "score": 8,
+            "time": "29 Jul 2026 20:20"
         }
     ],
     "global": []

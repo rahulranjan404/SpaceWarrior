@@ -494,7 +494,9 @@ class GameScreen(ctk.CTkFrame):
                 asteroid_y,
                 asteroid.radius
 
-            ):
+            ):  
+
+                audio.play("explosion")
                 # Freeze gameplay
                 self.is_paused = True
 
@@ -508,6 +510,8 @@ class GameScreen(ctk.CTkFrame):
                     "destroy",
                     110
                 )
+
+                
 
                 self.pending_game_over = True
 
