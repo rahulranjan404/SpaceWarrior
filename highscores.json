@@ -61,9 +61,19 @@
             "time": "28 Jul 2026 20:21"
         },
         {
+            "name": "PLAYER",
+            "score": 590,
+            "time": "29 Jul 2026 21:15"
+        },
+        {
             "name": "Rahul",
             "score": 551,
             "time": "28 Jul 2026 20:17"
+        },
+        {
+            "name": "PLAYER",
+            "score": 538,
+            "time": "29 Jul 2026 21:14"
         },
         {
             "name": "PLAYER",
@@ -142,6 +152,11 @@
         },
         {
             "name": "PLAYER",
+            "score": 71,
+            "time": "29 Jul 2026 21:13"
+        },
+        {
+            "name": "PLAYER",
             "score": 28,
             "time": "29 Jul 2026 20:23"
         },
@@ -179,6 +194,16 @@
             "name": "PLAYER",
             "score": 8,
             "time": "29 Jul 2026 20:20"
+        },
+        {
+            "name": "PLAYER",
+            "score": 7,
+            "time": "29 Jul 2026 21:04"
+        },
+        {
+            "name": "PLAYER",
+            "score": 7,
+            "time": "29 Jul 2026 21:12"
         }
     ],
     "global": []
