@@ -1,6 +1,6 @@
 import customtkinter as ctk
 import settings
-
+from audio import audio
 
 class GameButton(ctk.CTkButton):
 
@@ -13,11 +13,18 @@ class GameButton(ctk.CTkButton):
         height=48
     ):
 
+        def wrapped_command():
+
+            audio.play("click")
+
+            if command:
+                command()
+
         super().__init__(
             parent,
 
             text=text,
-            command=command,
+            command=wrapped_command,
 
             width=width,
             height=height,

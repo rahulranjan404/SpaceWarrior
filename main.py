@@ -1,3 +1,5 @@
+from email.mime import audio
+
 import customtkinter as ctk
 import settings
 
@@ -22,6 +24,14 @@ class SpaceWarrior(ctk.CTk):
         self.current_screen = None
 
         self.show_menu()
+
+
+        from audio import audio
+
+        audio.load(
+            "click",
+            "assets/sounds/ui.mp3"
+        )
 
     def change_screen(self, screen):
 
