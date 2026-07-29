@@ -1,3 +1,5 @@
+from unicodedata import name
+
 import pygame
 
 pygame.mixer.init()
@@ -29,5 +31,15 @@ class AudioManager:
         for sound in self.sounds.values():
             sound.set_volume(volume)
 
+    def play_loop(self, name):
+
+        if name in self.sounds:
+            self.sounds[name].play(loops=-1)
+
+
+    def stop(self, name):
+
+        if name in self.sounds:
+            self.sounds[name].stop()
 
 audio = AudioManager()

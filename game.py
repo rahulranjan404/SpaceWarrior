@@ -164,7 +164,7 @@ class GameScreen(ctk.CTkFrame):
         self.canvas.bind("<KeyRelease>", self.key_release)
         self.canvas.bind("<space>", self.fire_missile)
         self.player = Player(self.canvas)
-
+        audio.play_loop("alive")
     # ======================================
     # PAUSE
     # ======================================
@@ -174,6 +174,7 @@ class GameScreen(ctk.CTkFrame):
        
 
         if self.is_paused:
+
             self.resume_game()
         else:
             self.show_pause_menu()
@@ -498,7 +499,9 @@ class GameScreen(ctk.CTkFrame):
 
             ):  
 
+                audio.stop("alive")
                 audio.play("explosion")
+                
                 # Freeze gameplay
                 self.is_paused = True
 
