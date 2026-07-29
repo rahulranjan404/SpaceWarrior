@@ -3,7 +3,7 @@ import customtkinter as ctk
 from entities.player import Player
 import settings
 from engine.background import StarField
-
+import pygame
 from score import ScoreManager
 
 from entities.explosion import Explosion
@@ -134,6 +134,7 @@ class GameScreen(ctk.CTkFrame):
     # ======================================
     # GAME CANVAS
     # ======================================
+        audio.play_loop("alive")
 
     def create_canvas(self):
 
@@ -164,7 +165,8 @@ class GameScreen(ctk.CTkFrame):
         self.canvas.bind("<KeyRelease>", self.key_release)
         self.canvas.bind("<space>", self.fire_missile)
         self.player = Player(self.canvas)
-        audio.play_loop("alive")
+
+        
     # ======================================
     # PAUSE
     # ======================================
@@ -182,25 +184,26 @@ class GameScreen(ctk.CTkFrame):
     def show_pause_menu(self):
 
         self.is_paused = True
-
+        pygame.mixer.pause()
         self.pause_button.configure(text="RESUME")
 
         # Dark overlay
-        self.pause_overlay = ctk.CTkFrame(
-            self,
-            fg_color="transparent"
-        )
+        # self.pause_overlay = ctk.CTkFrame(
+        #     self,
+        #     fg_color="transparent"
+        # )
 
-        self.pause_overlay.place(
-            relx=0,
-            rely=0,
-            relwidth=1,
-            relheight=1
-        )
+        # self.pause_overlay.place(
+        #     relx=0,
+        #     rely=0,
+        #     relwidth=1,
+        #     relheight=1
+        # )
 
         # Center box
-        box = ctk.CTkFrame(
-            self.pause_overlay,
+        
+        self.box = ctk.CTkFrame(
+            self.canvas,
             width=500,
             height=430,
             fg_color="black",
@@ -208,7 +211,7 @@ class GameScreen(ctk.CTkFrame):
             border_color="white",
             corner_radius=0
         )
-
+        box = self.box
         box.place(relx=0.5, rely=0.5, anchor="center")
         box.pack_propagate(False)
 
@@ -255,14 +258,11 @@ class GameScreen(ctk.CTkFrame):
     def resume_game(self):
 
         self.is_paused = False
-
+        pygame.mixer.unpause()
         self.pause_button.configure(text="PAUSE")
 
-        self.pause_overlay.destroy()
+        self.box.destroy()
 
-    # ======================================
-    # GAME LOOP
-    # ======================================
 
     def update(self):
 
@@ -314,9 +314,6 @@ class GameScreen(ctk.CTkFrame):
 
         elif key in ("s", "down"):
             self.player.down = True
-        
-        
-
 
     def key_release(self, event):
 
@@ -527,13 +524,85 @@ class GameScreen(ctk.CTkFrame):
         self.score_manager.save_local_score("PLAYER")
 
         bestscore = self.score_manager.get_best_score()
-        self.game_over_menu = GameOverMenu(
-            self,
-            restart_callback=self.restart_game,
-            exit_callback=self.exit_game,
-            score=self.score_manager.score,
-            highscore=bestscore
+        # self.game_over_menu = GameOverMenu(
+        #     self,
+        #     restart_callback=self.restart_game,
+        #     exit_callback=self.exit_game,
+        #     score=self.score_manager.score,
+        #     highscore=bestscore
+        # )
+        # self.game_over_menu.place(
+        #     relx=0.5,
+        #     rely=0.5,
+        #     anchor="center",
+        #     relwidth=1,
+        #     relheight=1
+        # )
+
+        self.hud.pack_forget()
+        score=self.score_manager.score
+        highscore=bestscore
+        self.panel = ctk.CTkFrame(
+                    self,
+                    width=420,
+                    height=360,
+                    fg_color=settings.BLACK,
+                    border_width=2,
+                    border_color=settings.WHITE,
+                    corner_radius=0
+                )
+        
+        self.panel.place(
+            relx=0.5,
+            rely=0.5,
+            anchor="center"
+        )   
+
+        panel = self.panel
+
+        panel.pack_propagate(False)
+
+        title = ctk.CTkLabel(
+            panel,
+            text="GAME OVER",
+            font=(settings.FONT, 42),
+            text_color=settings.WHITE
         )
+        title.pack(pady=(40, 40))
+
+        score_label = ctk.CTkLabel(
+            panel,
+            text=f"SCORE : {score}",
+            font=(settings.FONT, 20),
+            text_color=settings.WHITE
+        )
+        score_label.pack(pady=(0, 8))
+
+        highscore_label = ctk.CTkLabel(
+            panel,
+            text=f"HIGH SCORE : {highscore['score']}",
+            font=(settings.FONT, 20),
+            text_color=settings.WHITE
+            )
+        highscore_label.pack(pady=(0, 25))
+
+        
+
+        GameButton(
+            panel,
+            text="RESTART",
+            command=self.restart_game,
+            width=220,
+            height=45
+        ).pack(pady=10)
+
+        GameButton(
+            panel,
+            text="EXIT",
+            command=self.exit_game,
+            width=220,
+            height=45
+        ).pack(pady=10)
     
     def restart_game(self):
 

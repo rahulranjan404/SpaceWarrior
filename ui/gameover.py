@@ -19,7 +19,7 @@ class GameOverMenu(ctk.CTkFrame):
 
         super().__init__(
             parent,
-            fg_color="#000000"
+            fg_color="transparent"
         )
 
         #Full-screen overlay
@@ -31,7 +31,7 @@ class GameOverMenu(ctk.CTkFrame):
         )
 
         # Center panel
-        panel = ctk.CTkFrame(
+        self.panel = ctk.CTkFrame(
             self,
             width=420,
             height=360,
@@ -41,11 +41,13 @@ class GameOverMenu(ctk.CTkFrame):
             corner_radius=0
         )
 
-        panel.place(
+        self.panel.place(
             relx=0.5,
             rely=0.5,
             anchor="center"
-        )
+        )   
+
+        panel = self.panel
 
         panel.pack_propagate(False)
 

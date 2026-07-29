@@ -42,4 +42,5 @@ class AudioManager:
         if name in self.sounds:
             self.sounds[name].stop()
 
+
 audio = AudioManager()
