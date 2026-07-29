@@ -42,7 +42,7 @@ COLOR_THEME = "blue"
 # Colors
 # ==========================
 
-BACKGROUND = "#000000"
+BACKGROUND = "#080808"
 
 WHITE = "#FFFFFF"
 BLACK = "#000000"

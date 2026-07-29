@@ -43,6 +43,11 @@ class SpaceWarrior(ctk.CTk):
             "assets/sounds/hover.mp3"
         )
 
+        audio.load(
+            "shoot",
+            "assets/sounds/pewpew.mp3"
+        )
+
     def change_screen(self, screen):
 
         if self.current_screen:

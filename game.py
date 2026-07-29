@@ -335,11 +335,13 @@ class GameScreen(ctk.CTkFrame):
 
     def fire_missile(self, event=None):
 
+        
         current = time.time() * 1000
 
         if current - self.last_shot < settings.MISSILE_COOLDOWN:
             return
-
+        
+        audio.play("shoot")
         self.last_shot = current
 
         x, y = self.player.get_gun_position()
