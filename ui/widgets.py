@@ -14,7 +14,7 @@ class GameButton(tk.Canvas):
         command,
         width=280,
         height=48,
-        style="default"
+        style="small"
     ):
 
         # ===================================================
@@ -29,17 +29,17 @@ class GameButton(tk.Canvas):
         if style == "small":
 
             # Hover growth
-            self.hover_width_increase = width + 5
-            self.hover_height_increase = height + 1
+            self.hover_width_increase = 10
+            self.hover_height_increase = 4
             self.hover_font_size = settings.BUTTON_SIZE + 1
         # Font sizes
         
         if style == "default":
 
             # Hover growth
-            self.hover_width_increase = width + 10
-            self.hover_height_increase = height + 4
-            self.hover_font_size = settings.BUTTON_SIZE + 4
+            self.hover_width_increase = 30
+            self.hover_height_increase = 12
+            self.hover_font_size = settings.BUTTON_SIZE + 5
         
 
         # Border thickness

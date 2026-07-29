@@ -78,25 +78,29 @@ class MainMenu(ctk.CTkFrame):
         GameButton(
             container,
             "PLAY",
-            self.play_game
+            self.play_game,
+            style = "default"
         ).pack(pady=8)
 
         GameButton(
             container,
             "HIGH SCORES",
-            self.high_scores
+            self.high_scores,
+            style = "default"
         ).pack(pady=8)
 
         GameButton(
             container,
             "SETTINGS",
-            self.settings
+            self.settings,
+            style = "default"
         ).pack(pady=8)
 
         GameButton(
             container,
             "EXIT",
-            self.parent.destroy
+            self.parent.destroy,
+            style = "default"
         ).pack(pady=8)
 
         version = ctk.CTkLabel(
