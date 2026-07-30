@@ -1,7 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
 import time
-
+import ui.settingsmenu as settingsmenu
 import settings
 
 from game import GameScreen
@@ -217,5 +217,6 @@ class MainMenu(ctk.CTkFrame):
         )
 
     def settings(self):
-
+        self.destroy()
+        settingsmenu.SettingsMenu(self.parent, self.parent.show_menu)
         print("Settings")

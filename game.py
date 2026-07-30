@@ -4,7 +4,7 @@ from entities.player import Player
 import settings
 from engine.background import StarField
 import pygame
-from score import ScoreManager
+from data.score import ScoreManager
 
 from entities.explosion import Explosion
 
