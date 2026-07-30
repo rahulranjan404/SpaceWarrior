@@ -3,7 +3,7 @@ import customtkinter as ctk
 import time
 import ui.settingsmenu as settingsmenu
 import settings
-
+from audio import audio
 from game import GameScreen
 from ui.widgets import GameButton
 
@@ -42,6 +42,7 @@ class MainMenu(ctk.CTkFrame):
             relheight=1
         )
 
+        audio.play_loop("mainmenumusic")
         # Animated background
 
         self.background = StarField(

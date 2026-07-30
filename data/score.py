@@ -7,7 +7,7 @@ class ScoreManager:
 
     def __init__(self):
 
-        self.file = "highscores.json"
+        self.file = "data//highscores.json"
         self.score = 0
 
         self.data = self.load_data()

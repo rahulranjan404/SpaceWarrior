@@ -2,7 +2,13 @@ import customtkinter as ctk
 
 import settings
 from ui.widgets import GameButton
+import json
+import audio
+import tkinter as tk
+import time
 
+from engine.background import StarField
+from entities.asteroid import Asteroid
 
 class SettingsMenu(ctk.CTkFrame):
 
@@ -10,29 +16,110 @@ class SettingsMenu(ctk.CTkFrame):
 
         super().__init__(parent)
 
-        self.configure(
-            fg_color=settings.BACKGROUND
-        )
-
         self.pack(fill="both", expand=True)
 
-        self.back_callback = back_callback
+        self.canvas = tk.Canvas(
+            self,
+            bg="black",
+            highlightthickness=0,
+            width=settings.WINDOW_WIDTH,
+            height=settings.WINDOW_HEIGHT
+        )
+
+        self.canvas.place(
+            relx=0,
+            rely=0,
+            relwidth=1,
+            relheight=1
+        )
+
+        self.background = StarField(
+            self.canvas,
+            settings.WINDOW_WIDTH,
+            settings.WINDOW_HEIGHT
+        )
+
+        self.asteroids = []
+        self.last_spawn = 0
 
         self.build()
 
+        self.update_background()
+        self.settings_data = self.load_settings()
+        
+        self.back_callback = back_callback
+
+        
+
     # =====================================================
 
+    def load_settings(self):
+
+        try:
+            with open("settings.json", "r") as f:
+                return json.load(f)
+
+        except:
+
+            return {
+                "sound": True,
+                "music": True
+            }
+    def save_settings(self):
+        with open("settings.json", "w") as f:
+            json.dump(self.settings_data, f, indent=4)
+
+            # ---------------- Main Box ----------------
+    def update_background(self):
+
+        self.background.update()
+
+        current = time.time()
+
+        if current - self.last_spawn > 2:
+
+            asteroid = Asteroid(self.canvas)
+
+            asteroid.rotation_speed *= 0.5
+
+            self.asteroids.append(asteroid)
+
+            self.last_spawn = current
+
+        for asteroid in self.asteroids[:]:
+
+            asteroid.update()
+
+            if asteroid.is_offscreen():
+
+                asteroid.destroy()
+
+                self.asteroids.remove(asteroid)
+
+        self.after(16, self.update_background)
     def build(self):
+
 
         # ---------------- Top Bar ----------------
 
         top_bar = ctk.CTkFrame(
             self,
-            fg_color="transparent",
-            height=50
+            fg_color="black",
+            height=20
         )
 
-        top_bar.pack(fill="x", padx=30, pady=(25,20))
+        top_bar.grid_rowconfigure(
+            0,
+            weight=0,
+            minsize=50
+        )
+
+        top_bar.pack(
+            fill="x",
+            padx=30,
+            pady=(30, 20)
+        )
+
         top_bar.pack_propagate(False)
 
         top_bar.grid_columnconfigure(0, weight=0)
@@ -45,105 +132,210 @@ class SettingsMenu(ctk.CTkFrame):
             width=170,
             height=45,
             command=self.back
-        ).grid(row=0, column=0, sticky="w")
+        ).grid(
+            row=0,
+            column=0,
+            sticky="w"
+        )
 
-        ctk.CTkLabel(
+        title = ctk.CTkLabel(
             top_bar,
             text="SETTINGS",
-            font=(settings.FONT,48),
+            font=(settings.FONT, 48),
             text_color="white"
-        ).grid(row=0,column=1)
+        )
 
-        ctk.CTkLabel(
+        title.grid(
+            row=0,
+            column=1
+        )
+
+        spacer = ctk.CTkLabel(
             top_bar,
             text="",
             width=170
-        ).grid(row=0,column=2)
+        )
 
-        # ---------------- Main Box ----------------
-
+        spacer.grid(
+            row=0,
+            column=2
+        )
         box = ctk.CTkFrame(
             self,
             width=720,
-            height=520,
+            height=420,
             fg_color="black",
             border_width=3,
             border_color="white",
             corner_radius=0
         )
 
-        box.pack(pady=15)
-
+        box.place(
+            relx=0.5,
+            rely=0.5,
+            anchor="center"
+        )
         box.pack_propagate(False)
 
         # =====================================================
         # AUDIO
         # =====================================================
 
-        ctk.CTkLabel(
+        title = ctk.CTkLabel(
             box,
             text="AUDIO",
-            font=(settings.FONT,24),
+            font=(settings.FONT, 26),
             text_color="white"
-        ).pack(anchor="w", padx=30, pady=(25,15))
-
-        self.sound_slider = self.make_slider(
-            box,
-            "Sound Effects",
-            70
         )
 
-        self.music_slider = self.make_slider(
+        title.pack(anchor="w", padx=35, pady=(30, 25))
+
+        # ---------------- Sound ----------------
+
+        sound_row = ctk.CTkFrame(
             box,
-            "Music",
-            50
+            fg_color="transparent"
         )
 
-        self.separator(box)
+        sound_row.pack(fill="x", padx=35, pady=10)
+
+        ctk.CTkLabel(
+            sound_row,
+            text="Sound Effects",
+            font=(settings.FONT, 20),
+            text_color="white"
+        ).pack(side="left")
+
+        self.sound_box = ctk.CTkFrame(
+            sound_row,
+            width=24,
+            height=24,
+            fg_color="white",
+            border_width=2,
+            border_color="white",
+            corner_radius=0
+        )
+
+        self.sound_box.pack(side="right")
+
+        self.sound_box.bind(
+            "<Button-1>",
+            lambda e: self.toggle_sound()
+        )
+
+        # ---------------- Music ----------------
+
+        music_row = ctk.CTkFrame(
+            box,
+            fg_color="transparent"
+        )
+
+        music_row.pack(fill="x", padx=35, pady=10)
+
+        ctk.CTkLabel(
+            music_row,
+            text="Music",
+            font=(settings.FONT, 20),
+            text_color="white"
+        ).pack(side="left")
+
+        self.music_box = ctk.CTkFrame(
+            music_row,
+            width=24,
+            height=24,
+            fg_color="white",
+            border_width=2,
+            border_color="white",
+            corner_radius=0
+        )
+
+        self.music_box.pack(side="right")
+
+        self.music_box.bind(
+            "<Button-1>",
+            lambda e: self.toggle_music()
+        )
 
         # =====================================================
-        # GAMEPLAY
+        # Divider
+        # =====================================================
+
+        ctk.CTkFrame(
+            box,
+            height=2,
+            fg_color="white"
+        ).pack(fill="x", padx=30, pady=30)
+
+        # =====================================================
+        # Updates
         # =====================================================
 
         ctk.CTkLabel(
             box,
-            text="GAMEPLAY",
-            font=(settings.FONT,24),
+            text="CHECK FOR UPDATES",
+            font=(settings.FONT, 26),
             text_color="white"
-        ).pack(anchor="w", padx=30, pady=(20,15))
-
-        self.mouse_slider = self.make_slider(
-            box,
-            "Mouse Sensitivity",
-            50
-        )
-
-        self.separator(box)
-
-        # =====================================================
-        # CONTROLS
-        # =====================================================
-
-        ctk.CTkLabel(
-            box,
-            text="CONTROLS",
-            font=(settings.FONT,24),
-            text_color="white"
-        ).pack(anchor="w", padx=30, pady=(20,15))
-
-        self.control_row(box,"Move Left","A")
-        self.control_row(box,"Move Right","D")
-        self.control_row(box,"Shoot","SPACE")
-        self.control_row(box,"Pause","ESC")
+        ).pack(anchor="w", padx=35)
 
         GameButton(
             box,
-            text="SAVE",
-            width=220,
-            command=self.save
-        ).pack(pady=30)
+            text="CHECK",
+            width=200,
+            command=self.check_updates
+        ).pack(pady=(25, 15))
 
+        self.update_status = ctk.CTkLabel(
+            box,
+            text="Status : Ready",
+            font=(settings.FONT, 18),
+            text_color="white"
+        )
+
+        self.update_status.pack()
+
+    def toggle_sound(self):
+
+        enabled = self.sound_box.cget("fg_color") == "white"
+
+        if enabled:
+            self.sound_box.configure(fg_color="black")
+            audio.sound_enabled = False
+        else:
+            self.sound_box.configure(fg_color="white")
+            audio.sound_enabled = True
+
+        self.save_settings()
     # =====================================================
+
+    def toggle_music(self):
+
+        enabled = self.music_box.cget("fg_color") == "white"
+
+        if enabled:
+            self.music_box.configure(fg_color="black")
+            audio.music_enabled = False
+            audio.stop("alive")
+        else:
+            self.music_box.configure(fg_color="white")
+            audio.music_enabled = True
+            audio.loop("alive")
+
+        self.save_settings()
+
+
+    def check_updates(self):
+
+        self.update_status.configure(
+            text="Status : Loading..."
+        )
+
+        self.after(
+            2000,
+            lambda: self.update_status.configure(
+                text="Status : Server not found."
+            )
+        )
+    
 
     def make_slider(self,parent,text,value):
 
