@@ -164,9 +164,10 @@ class GameScreen(ctk.CTkFrame):
         self.canvas.bind("<KeyPress>", self.key_press)
         self.canvas.bind("<KeyRelease>", self.key_release)
         self.canvas.bind("<space>", self.fire_missile)
+        
         self.player = Player(self.canvas)
 
-        
+        self.lock_mouse()
     # ======================================
     # PAUSE
     # ======================================
@@ -184,6 +185,7 @@ class GameScreen(ctk.CTkFrame):
     def show_pause_menu(self):
 
         self.is_paused = True
+        self.unlock_mouse()
         pygame.mixer.pause()
         self.pause_button.configure(text="RESUME")
 
@@ -258,11 +260,24 @@ class GameScreen(ctk.CTkFrame):
     def resume_game(self):
 
         self.is_paused = False
+        self.lock_mouse()
         pygame.mixer.unpause()
         self.pause_button.configure(text="PAUSE")
 
         self.box.destroy()
 
+    def lock_mouse(self):
+        self.mouse_locked = True
+
+        # Hide cursor
+        self.canvas.configure(cursor="none")
+
+        # Keep focus on canvas
+        self.canvas.focus_set()
+
+    def unlock_mouse(self):
+        self.mouse_locked = False
+        self.canvas.configure(cursor="")
 
     def update(self):
 
@@ -539,7 +554,8 @@ class GameScreen(ctk.CTkFrame):
         #     relheight=1
         # )
 
-        self.hud.pack_forget()
+        # self.hud.pack_forget()
+        # self.update_idletasks()
         score=self.score_manager.score
         highscore=bestscore
         self.panel = ctk.CTkFrame(
@@ -551,6 +567,8 @@ class GameScreen(ctk.CTkFrame):
                     border_color=settings.WHITE,
                     corner_radius=0
                 )
+
+        self.unlock_mouse()
         
         self.panel.place(
             relx=0.5,
@@ -658,6 +676,7 @@ class GameScreen(ctk.CTkFrame):
     )
 
     def update_survival_score(self):
+
 
         current = time.time() * 1000
 

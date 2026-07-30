@@ -79,7 +79,7 @@ class MainMenu(ctk.CTkFrame):
 
         title.place(
             relx=0.5,
-            rely=0.16,
+            rely=0.20,
             anchor="center"
         )
 
@@ -93,7 +93,7 @@ class MainMenu(ctk.CTkFrame):
 
         subtitle.place(
             relx=0.5,
-            rely=0.22,
+            rely=0.26,
             anchor="center"
         )
 
