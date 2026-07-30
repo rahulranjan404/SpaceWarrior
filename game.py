@@ -66,18 +66,10 @@ class GameScreen(ctk.CTkFrame):
         self.create_ui()
         self.update()
 
-    # ======================================
-    # UI
-    # ======================================
-
     def create_ui(self):
 
         self.create_hud()
         self.create_canvas()
-
-    # ======================================
-    # HUD
-    # ======================================
 
     def create_hud(self):
 
@@ -170,10 +162,6 @@ class GameScreen(ctk.CTkFrame):
         self.lock_mouse()
 
         self.mouse_locked = True
-
-    # ======================================
-    # PAUSE
-    # ======================================
 
     def pause_game(self):
 
@@ -301,8 +289,8 @@ class GameScreen(ctk.CTkFrame):
 
             # Increase slowly over time (max 3x)
             self.speed_multiplier = min(
-                2.5,
-                1 + self.game_time / 6000
+                settings.max_speed_multiplier,
+                1 + self.game_time / settings.time_increasespeed
             )
 
             self.background.speed_multiplier = self.speed_multiplier
@@ -414,7 +402,7 @@ class GameScreen(ctk.CTkFrame):
         if current - self.last_asteroid_spawn < spawn_delay:
             return
 
-        self.last_asteroid_spawn = current
+        self.last_asteroid_spawn = current  
 
         self.asteroids.append(
             Asteroid(self.canvas)
@@ -650,7 +638,6 @@ class GameScreen(ctk.CTkFrame):
         game = GameScreen(self.parent)
 
         game.pack(fill="both", expand=True)
-
 
     def exit_game(self):
 

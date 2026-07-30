@@ -4,6 +4,12 @@ import settings
 from score import ScoreManager
 from ui.widgets import GameButton
 
+import tkinter as tk
+import time
+
+from engine.background import StarField
+from entities.asteroid import Asteroid
+
 
 class Leaderboard(ctk.CTkFrame):
 
@@ -15,16 +21,74 @@ class Leaderboard(ctk.CTkFrame):
 
         self.pack(fill="both", expand=True)
 
+        # =====================================
+        # Background Canvas
+        # =====================================
+
+        self.canvas = tk.Canvas(
+            self,
+            width=settings.WINDOW_WIDTH,
+            height=settings.WINDOW_HEIGHT,
+            bg="black",
+            highlightthickness=0
+        )
+
+        self.canvas.place(
+            relx=0,
+            rely=0,
+            relwidth=1,
+            relheight=1
+        )
+
+        self.background = StarField(
+            self.canvas,
+            settings.WINDOW_WIDTH,
+            settings.WINDOW_HEIGHT
+        )
+
+        self.asteroids = []
+        self.last_spawn = 0
+
         self.back_callback = back_callback
 
         self.score_manager = ScoreManager()
 
         self.local_scores = self.score_manager.get_local_scores()
+        
 
         self.build()
 
+        self.update_background()
+
     # --------------------------------------------------
 
+    def update_background(self):
+
+        self.background.update()
+
+        current = time.time()
+
+        if current - self.last_spawn > 2:
+
+            asteroid = Asteroid(self.canvas)
+
+            asteroid.rotation_speed *= 0.5
+
+            self.asteroids.append(asteroid)
+
+            self.last_spawn = current
+
+        for asteroid in self.asteroids[:]:
+
+            asteroid.update()
+
+            if asteroid.is_offscreen():
+
+                asteroid.destroy()
+
+                self.asteroids.remove(asteroid)
+
+        self.after(16, self.update_background)
     def build(self):
         top_bar = ctk.CTkFrame(
             self,
@@ -87,6 +151,7 @@ class Leaderboard(ctk.CTkFrame):
             width=160,
             command=lambda: None
         ).pack(side="left", padx=10)
+
 
         # ---------------- Top Card ----------------
 
@@ -304,7 +369,7 @@ class Leaderboard(ctk.CTkFrame):
                     height=1,
                     fg_color="#404040"
                 ).pack(fill="x")
- 
+        self.lift()
     # --------------------------------------------------
 
     def back(self):

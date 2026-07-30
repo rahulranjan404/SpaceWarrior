@@ -1,5 +1,5 @@
 import random
-
+import settings
 
 class StarField:
 
@@ -10,7 +10,7 @@ class StarField:
         self.height = height
 
         self.stars = []
-        self.speed_multiplier = 1.0
+        self.speed_multiplier = settings.speed_multiplier
 
         self.create_layer(70, 1, (1, 2))
         self.create_layer(45, 2, (2, 3))
