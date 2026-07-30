@@ -1,14 +1,20 @@
+import tkinter as tk
 import customtkinter as ctk
+import time
 
 import settings
-from game import GameScreen
 
+from game import GameScreen
 from ui.widgets import GameButton
+
+from engine.background import StarField
+from entities.asteroid import Asteroid
 
 
 class MainMenu(ctk.CTkFrame):
 
     def __init__(self, parent):
+
         super().__init__(parent)
 
         self.parent = parent
@@ -17,124 +23,189 @@ class MainMenu(ctk.CTkFrame):
             fg_color=settings.BACKGROUND
         )
 
+        # ==================================================
+        # BACKGROUND CANVAS
+        # ==================================================
+
+        self.canvas = tk.Canvas(
+            self,
+            width=settings.WINDOW_WIDTH,
+            height=settings.WINDOW_HEIGHT,
+            bg="black",
+            highlightthickness=0
+        )
+
+        self.canvas.place(
+            relx=0,
+            rely=0,
+            relwidth=1,
+            relheight=1
+        )
+
+        # Animated background
+
+        self.background = StarField(
+            self.canvas,
+            settings.WINDOW_WIDTH,
+            settings.WINDOW_HEIGHT
+        )
+
+        self.asteroids = []
+        self.last_spawn = 0
+
+        # UI
+
         self.create_widgets()
+
+        # Start animation
+
+        self.update_background()
+
+    # ==================================================
 
     def create_widgets(self):
 
-        container = ctk.CTkFrame(
+        # ----------------------------
+        # TITLE
+        # ----------------------------
+
+        title = ctk.CTkLabel(
             self,
+            text="SPACE WARRIOR",
+            font=(settings.FONT, settings.TITLE_SIZE),
+            text_color=settings.WHITE,
             fg_color="transparent"
         )
 
-        container.place(
+        title.place(
             relx=0.5,
-            rely=0.5,
+            rely=0.16,
             anchor="center"
         )
 
-        # -----------------------
-        # Title
-        # -----------------------
-
-        title = ctk.CTkLabel(
-
-            container,
-
-            text="SPACE WARRIOR",
-
-            font=(
-                settings.FONT,
-                settings.TITLE_SIZE
-            ),
-
-            text_color=settings.WHITE,
-
-            justify="center"
-        )
-
-        title.pack(pady=(0, 15))
-
         subtitle = ctk.CTkLabel(
-
-            container,
-
+            self,
             text="- ENDLESS SPACE BATTLE -",
-
-            font=(
-                settings.FONT,
-                settings.SUBTITLE_SIZE
-            ),
-
-            text_color=settings.WHITE
-
+            font=(settings.FONT, settings.SUBTITLE_SIZE),
+            text_color=settings.WHITE,
+            fg_color="transparent"
         )
 
-        subtitle.pack(pady=(0, 50))
+        subtitle.place(
+            relx=0.5,
+            rely=0.22,
+            anchor="center"
+        )
 
-        # -----------------------
-        # Buttons
-        # -----------------------
+        # ----------------------------
+        # BUTTON BOX
+        # ----------------------------
+
+        self.container = ctk.CTkFrame(
+            self,
+            width=370,
+            height=320,
+            fg_color="black",
+            border_width=2,
+            border_color="white",
+            corner_radius=0
+        )
+
+        self.container.place(
+            relx=0.5,
+            rely=0.58,
+            anchor="center"
+        )
+
+        self.container.pack_propagate(False)
+
+        # ----------------------------
+        # BUTTONS
+        # ----------------------------
 
         GameButton(
-            container,
+            self.container,
             "PLAY",
             self.play_game,
-            style = "default"
-        ).pack(pady=8)
+            style="default"
+        ).pack(pady=(15, 8))
 
         GameButton(
-            container,
+            self.container,
             "HIGH SCORES",
             self.high_scores,
-            style = "default"
+            style="default"
         ).pack(pady=8)
 
         GameButton(
-            container,
+            self.container,
             "SETTINGS",
             self.settings,
-            style = "default"
+            style="default"
         ).pack(pady=8)
 
         GameButton(
-            container,
+            self.container,
             "EXIT",
             self.parent.destroy,
-            style = "default"
-        ).pack(pady=8)
+            style="default"
+        ).pack(pady=(8,15))
+
+        # ----------------------------
+        # VERSION
+        # ----------------------------
 
         version = ctk.CTkLabel(
-
             self,
-
             text="v1.0",
-
+            font=(settings.FONT, 12),
             text_color=settings.WHITE,
-
-            font=(
-                settings.FONT,
-                12
-            )
-
+            fg_color="transparent"
         )
 
         version.place(
-            relx=0.98,
-            rely=0.98,
+            relx=0.985,
+            rely=0.985,
             anchor="se"
         )
 
+    # ==================================================
+
+    def update_background(self):
+
+        self.background.update()
+
+        current = time.time()
+
+        if current - self.last_spawn > 2:
+
+            asteroid = Asteroid(self.canvas)
+
+            asteroid.rotation_speed *= 0.5
+
+            self.asteroids.append(asteroid)
+
+            self.last_spawn = current
+
+        for asteroid in self.asteroids[:]:
+
+            asteroid.update()
+
+            if asteroid.is_offscreen():
+
+                asteroid.destroy()
+
+                self.asteroids.remove(asteroid)
+
+        self.after(16, self.update_background)
+
+    # ==================================================
+
     def play_game(self):
+
         self.parent.change_screen(GameScreen)
 
     def high_scores(self):
-        print("High Scores")
-        self.open_leaderboard()
-
-    def settings(self):
-        print("Settings")
-
-    def open_leaderboard(self):
 
         self.destroy()
 
@@ -144,3 +215,7 @@ class MainMenu(ctk.CTkFrame):
             self.parent,
             self.parent.show_menu
         )
+
+    def settings(self):
+
+        print("Settings")
