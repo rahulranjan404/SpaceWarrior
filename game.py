@@ -168,6 +168,9 @@ class GameScreen(ctk.CTkFrame):
         self.player = Player(self.canvas)
 
         self.lock_mouse()
+
+        self.mouse_locked = True
+
     # ======================================
     # PAUSE
     # ======================================
@@ -266,6 +269,16 @@ class GameScreen(ctk.CTkFrame):
 
         self.box.destroy()
 
+    def toggle_mouse(self, event=None):
+
+        print("Toggling mouse lock")
+        self.mouse_locked = not self.mouse_locked
+
+        if self.mouse_locked:
+            self.lock_mouse()
+        else:
+            self.unlock_mouse()
+
     def lock_mouse(self):
         self.mouse_locked = True
 
@@ -329,6 +342,12 @@ class GameScreen(ctk.CTkFrame):
 
         elif key in ("s", "down"):
             self.player.down = True
+
+        elif event.keysym in ("Shift_L", "Shift_R"):
+            self.toggle_mouse()
+
+        elif event.keysym == "Escape":
+            self.pause_game()
 
     def key_release(self, event):
 

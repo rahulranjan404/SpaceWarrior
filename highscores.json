@@ -26,6 +26,11 @@
             "time": "30 Jul 2026 00:23"
         },
         {
+            "name": "PLAYER",
+            "score": 1288,
+            "time": "30 Jul 2026 18:03"
+        },
+        {
             "name": "Rahul",
             "score": 1267,
             "time": "28 Jul 2026 23:48"
@@ -146,6 +151,11 @@
             "time": "29 Jul 2026 21:34"
         },
         {
+            "name": "PLAYER",
+            "score": 570,
+            "time": "30 Jul 2026 18:04"
+        },
+        {
             "name": "Rahul",
             "score": 551,
             "time": "28 Jul 2026 20:17"
@@ -224,6 +234,11 @@
             "name": "Rahul",
             "score": 328,
             "time": "28 Jul 2026 20:21"
+        },
+        {
+            "name": "PLAYER",
+            "score": 323,
+            "time": "30 Jul 2026 18:01"
         },
         {
             "name": "PLAYER",
@@ -337,6 +352,11 @@
         },
         {
             "name": "PLAYER",
+            "score": 62,
+            "time": "30 Jul 2026 17:58"
+        },
+        {
+            "name": "PLAYER",
             "score": 60,
             "time": "29 Jul 2026 23:13"
         },
@@ -344,6 +364,11 @@
             "name": "PLAYER",
             "score": 58,
             "time": "29 Jul 2026 23:51"
+        },
+        {
+            "name": "PLAYER",
+            "score": 57,
+            "time": "30 Jul 2026 18:00"
         },
         {
             "name": "PLAYER",
@@ -474,31 +499,6 @@
             "name": "PLAYER",
             "score": 7,
             "time": "29 Jul 2026 21:25"
-        },
-        {
-            "name": "PLAYER",
-            "score": 7,
-            "time": "29 Jul 2026 23:32"
-        },
-        {
-            "name": "PLAYER",
-            "score": 7,
-            "time": "29 Jul 2026 23:42"
-        },
-        {
-            "name": "PLAYER",
-            "score": 7,
-            "time": "29 Jul 2026 23:50"
-        },
-        {
-            "name": "PLAYER",
-            "score": 6,
-            "time": "29 Jul 2026 23:42"
-        },
-        {
-            "name": "PLAYER",
-            "score": 5,
-            "time": "30 Jul 2026 15:37"
         }
     ],
     "global": []
