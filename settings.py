@@ -59,3 +59,8 @@ ASTEROID_SPAWN_DELAY = 900
 speed_multiplier = 1.0
 max_speed_multiplier = 5
 time_increasespeed = 4000
+
+mainmusicbool = False
+
+musicenabled = True
+soundenabled = True

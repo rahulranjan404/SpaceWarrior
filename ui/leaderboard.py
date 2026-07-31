@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
 import settings
-from score import ScoreManager
+from data.score import ScoreManager
 from ui.widgets import GameButton
 
 import tkinter as tk

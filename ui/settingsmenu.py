@@ -3,7 +3,7 @@ import customtkinter as ctk
 import settings
 from ui.widgets import GameButton
 import json
-import audio
+from audio import audio
 import tkinter as tk
 import time
 
@@ -42,6 +42,8 @@ class SettingsMenu(ctk.CTkFrame):
         self.asteroids = []
         self.last_spawn = 0
 
+        self.soundbuttonenabled = settings.soundenabled
+        self.musicbuttonenabled = settings.musicenabled
         self.build()
 
         self.update_background()
@@ -206,11 +208,15 @@ class SettingsMenu(ctk.CTkFrame):
             text_color="white"
         ).pack(side="left")
 
+        if self.soundbuttonenabled:
+            color_ = "white"
+        else:
+            color_ = "black"
         self.sound_box = ctk.CTkFrame(
             sound_row,
             width=24,
             height=24,
-            fg_color="white",
+            fg_color=color_,
             border_width=2,
             border_color="white",
             corner_radius=0
@@ -230,6 +236,8 @@ class SettingsMenu(ctk.CTkFrame):
             fg_color="transparent"
         )
 
+
+
         music_row.pack(fill="x", padx=35, pady=10)
 
         ctk.CTkLabel(
@@ -239,11 +247,16 @@ class SettingsMenu(ctk.CTkFrame):
             text_color="white"
         ).pack(side="left")
 
+        if self.musicbuttonenabled == True:
+            color_2 = "white"
+        else:
+            color_2 = "black"
+
         self.music_box = ctk.CTkFrame(
             music_row,
             width=24,
             height=24,
-            fg_color="white",
+            fg_color=color_2,
             border_width=2,
             border_color="white",
             corner_radius=0
@@ -299,10 +312,11 @@ class SettingsMenu(ctk.CTkFrame):
 
         if enabled:
             self.sound_box.configure(fg_color="black")
-            audio.sound_enabled = False
+            settings.soundenabled = False
+
         else:
             self.sound_box.configure(fg_color="white")
-            audio.sound_enabled = True
+            settings.soundenabled = True
 
         self.save_settings()
     # =====================================================
@@ -313,12 +327,13 @@ class SettingsMenu(ctk.CTkFrame):
 
         if enabled:
             self.music_box.configure(fg_color="black")
-            audio.music_enabled = False
-            audio.stop("alive")
+            settings.musicenabled = False
+            audio.stop("mainmenumusic")
         else:
             self.music_box.configure(fg_color="white")
-            audio.music_enabled = True
-            audio.loop("alive")
+            settings.musicenabled = True
+            audio.play_loop("mainmenumusic")
+            
 
         self.save_settings()
 

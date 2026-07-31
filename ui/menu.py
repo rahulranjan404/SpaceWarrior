@@ -11,7 +11,14 @@ from engine.background import StarField
 from entities.asteroid import Asteroid
 
 
+
 class MainMenu(ctk.CTkFrame):
+
+    audio.load(
+            "mainmenumusic",
+            "assets/music/music1.mp3"
+        )
+
 
     def __init__(self, parent):
 
@@ -41,8 +48,7 @@ class MainMenu(ctk.CTkFrame):
             relwidth=1,
             relheight=1
         )
-
-        audio.play_loop("mainmenumusic")
+        self.mainmenumsuic = settings.mainmusicbool
         # Animated background
 
         self.background = StarField(
@@ -57,13 +63,22 @@ class MainMenu(ctk.CTkFrame):
         # UI
 
         self.create_widgets()
+        self.playmusic()
 
         # Start animation
 
         self.update_background()
-
+        
     # ==================================================
 
+    def playmusic(self):
+        print(self.mainmenumsuic)
+        if self.mainmenumsuic == False:
+            settings.mainmusicbool = True
+            print("Playing main menu music")
+            audio.play_loop("mainmenumusic")
+        else:
+            pass
     def create_widgets(self):
 
         # ----------------------------
@@ -204,6 +219,8 @@ class MainMenu(ctk.CTkFrame):
 
     def play_game(self):
 
+        audio.stop("mainmenumusic")
+        settings.mainmusicbool = False
         self.parent.change_screen(GameScreen)
 
     def high_scores(self):
