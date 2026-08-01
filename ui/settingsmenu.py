@@ -329,6 +329,7 @@ class SettingsMenu(ctk.CTkFrame):
             self.music_box.configure(fg_color="black")
             settings.musicenabled = False
             audio.stop("mainmenumusic")
+            
         else:
             self.music_box.configure(fg_color="white")
             settings.musicenabled = True
