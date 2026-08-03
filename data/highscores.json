@@ -1,7 +1,7 @@
 {
     "local": [
         {
-            "name": "PRIYA IS THE BEST",
+            "name": "Rahul",
             "score": 1762,
             "time": "30 Jul 2026 00:28"
         },
@@ -169,6 +169,11 @@
             "name": "PLAYER",
             "score": 570,
             "time": "30 Jul 2026 18:04"
+        },
+        {
+            "name": "PLAYER",
+            "score": 557,
+            "time": "03 Aug 2026 19:23"
         },
         {
             "name": "Rahul",
@@ -361,6 +366,11 @@
             "time": "29 Jul 2026 21:36"
         },
         {
+            "name": "PLAYER",
+            "score": 112,
+            "time": "03 Aug 2026 19:16"
+        },
+        {
             "name": "Rahulasdc",
             "score": 110,
             "time": "28 Jul 2026 16:07"
@@ -452,6 +462,11 @@
         },
         {
             "name": "PLAYER",
+            "score": 62,
+            "time": "03 Aug 2026 19:22"
+        },
+        {
+            "name": "PLAYER",
             "score": 60,
             "time": "29 Jul 2026 23:13"
         },
@@ -484,21 +499,6 @@
             "name": "PLAYER",
             "score": 52,
             "time": "30 Jul 2026 19:36"
-        },
-        {
-            "name": "PLAYER",
-            "score": 38,
-            "time": "29 Jul 2026 23:31"
-        },
-        {
-            "name": "PLAYER",
-            "score": 36,
-            "time": "31 Jul 2026 22:19"
-        },
-        {
-            "name": "PLAYER",
-            "score": 32,
-            "time": "30 Jul 2026 19:29"
         }
     ],
     "global": []

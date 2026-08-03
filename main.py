@@ -2,7 +2,7 @@ from email.mime import audio
 
 import customtkinter as ctk
 import settings
-
+import json
 from ui.menu import MainMenu
 
 
@@ -22,6 +22,9 @@ class SpaceWarrior(ctk.CTk):
         self.resizable(False, False)
 
         self.current_screen = None
+
+        settings.musicenabled = json.load(open("settings.json"))["music"]
+        settings.soundenabled = json.load(open("settings.json"))["sound"]
 
         self.show_menu()
 

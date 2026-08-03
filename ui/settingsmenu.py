@@ -68,6 +68,7 @@ class SettingsMenu(ctk.CTkFrame):
                 "music": True
             }
     def save_settings(self):
+        
         with open("settings.json", "w") as f:
             json.dump(self.settings_data, f, indent=4)
 
@@ -314,11 +315,26 @@ class SettingsMenu(ctk.CTkFrame):
             self.sound_box.configure(fg_color="black")
             settings.soundenabled = False
 
+            with open("settings.json", "r") as f:
+                data = json.load(f)
+
+            data["sound"] = False
+
+            with open("settings.json", "w") as f:
+                json.dump(data, f, indent=4)
+
         else:
             self.sound_box.configure(fg_color="white")
             settings.soundenabled = True
 
-        self.save_settings()
+
+            with open("settings.json", "r") as f:
+                data = json.load(f)
+
+            data["sound"] = True
+
+            with open("settings.json", "w") as f:
+                json.dump(data, f, indent=4)
     # =====================================================
 
     def toggle_music(self):
@@ -329,14 +345,26 @@ class SettingsMenu(ctk.CTkFrame):
             self.music_box.configure(fg_color="black")
             settings.musicenabled = False
             audio.stop("mainmenumusic")
-            
+
+            with open("settings.json", "r") as f:
+                data = json.load(f)
+
+            data["music"] = False
+
+            with open("settings.json", "w") as f:
+                json.dump(data, f, indent=4)
         else:
             self.music_box.configure(fg_color="white")
             settings.musicenabled = True
             audio.play_loop("mainmenumusic")
-            
+            with open("settings.json", "r") as f:
+                data = json.load(f)
 
-        self.save_settings()
+            data["music"] = True
+
+            with open("settings.json", "w") as f:
+                json.dump(data, f, indent=4)
+
 
 
     def check_updates(self):
