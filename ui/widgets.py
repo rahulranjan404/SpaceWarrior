@@ -2,7 +2,7 @@ import tkinter as tk
 import customtkinter as ctk
 
 import settings
-from audio import audio
+from engine.audio import audio
 
 
 class GameButton(tk.Canvas):

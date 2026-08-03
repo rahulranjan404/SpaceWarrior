@@ -256,6 +256,11 @@
             "time": "30 Jul 2026 00:22"
         },
         {
+            "name": "PLAYER",
+            "score": 353,
+            "time": "03 Aug 2026 19:37"
+        },
+        {
             "name": "Rahul",
             "score": 347,
             "time": "28 Jul 2026 18:35"
@@ -317,6 +322,16 @@
         },
         {
             "name": "PLAYER",
+            "score": 237,
+            "time": "03 Aug 2026 19:36"
+        },
+        {
+            "name": "PLAYER",
+            "score": 236,
+            "time": "03 Aug 2026 19:37"
+        },
+        {
+            "name": "PLAYER",
             "score": 212,
             "time": "29 Jul 2026 22:08"
         },
@@ -324,6 +339,11 @@
             "name": "PLAYER",
             "score": 209,
             "time": "31 Jul 2026 22:16"
+        },
+        {
+            "name": "PLAYER",
+            "score": 205,
+            "time": "03 Aug 2026 19:37"
         },
         {
             "name": "Rahul",
@@ -354,6 +374,11 @@
             "name": "PLAYER",
             "score": 137,
             "time": "30 Jul 2026 00:22"
+        },
+        {
+            "name": "PLAYER",
+            "score": 131,
+            "time": "03 Aug 2026 19:36"
         },
         {
             "name": "PLAYER",
@@ -474,31 +499,6 @@
             "name": "PLAYER",
             "score": 58,
             "time": "29 Jul 2026 23:51"
-        },
-        {
-            "name": "PLAYER",
-            "score": 57,
-            "time": "30 Jul 2026 18:00"
-        },
-        {
-            "name": "PLAYER",
-            "score": 57,
-            "time": "31 Jul 2026 21:08"
-        },
-        {
-            "name": "PLAYER",
-            "score": 56,
-            "time": "29 Jul 2026 23:53"
-        },
-        {
-            "name": "PLAYER",
-            "score": 55,
-            "time": "30 Jul 2026 19:39"
-        },
-        {
-            "name": "PLAYER",
-            "score": 52,
-            "time": "30 Jul 2026 19:36"
         }
     ],
     "global": []

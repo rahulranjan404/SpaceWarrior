@@ -1,28 +1,28 @@
 import tkinter as tk
 import customtkinter as ctk
-from entities.player import Player
-import settings
-from engine.background import StarField
 import pygame
-from data.score import ScoreManager
-
-from entities.explosion import Explosion
-
-from ui.gameover import GameOverMenu
-
-from collision import circle_collision
-
-from ui.widgets import GameButton
-
-from audio import audio
 import time
 import random
 
+from entities.player import Player
 from entities.asteroid import Asteroid
-
-
+from entities.explosion import Explosion
 from entities.missile import Missile
 
+from engine.background import StarField
+from engine.audio import audio
+from engine.collision import circle_collision
+
+from data.score import ScoreManager
+
+import settings
+
+from ui.gameover import GameOverMenu
+from ui.widgets import GameButton
+
+
+
+#Main Game
 class GameScreen(ctk.CTkFrame):
 
     def __init__(self, parent):
@@ -179,21 +179,6 @@ class GameScreen(ctk.CTkFrame):
         self.unlock_mouse()
         pygame.mixer.pause()
         self.pause_button.configure(text="RESUME")
-
-        # Dark overlay
-        # self.pause_overlay = ctk.CTkFrame(
-        #     self,
-        #     fg_color="transparent"
-        # )
-
-        # self.pause_overlay.place(
-        #     relx=0,
-        #     rely=0,
-        #     relwidth=1,
-        #     relheight=1
-        # )
-
-        # Center box
         
         self.box = ctk.CTkFrame(
             self.canvas,

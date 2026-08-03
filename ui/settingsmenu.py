@@ -3,7 +3,7 @@ import customtkinter as ctk
 import settings
 from ui.widgets import GameButton
 import json
-from audio import audio
+from engine.audio import audio
 import tkinter as tk
 import time
 
@@ -315,12 +315,12 @@ class SettingsMenu(ctk.CTkFrame):
             self.sound_box.configure(fg_color="black")
             settings.soundenabled = False
 
-            with open("settings.json", "r") as f:
+            with open("data//settings.json", "r") as f:
                 data = json.load(f)
 
             data["sound"] = False
 
-            with open("settings.json", "w") as f:
+            with open("data//settings.json", "w") as f:
                 json.dump(data, f, indent=4)
 
         else:
@@ -328,12 +328,12 @@ class SettingsMenu(ctk.CTkFrame):
             settings.soundenabled = True
 
 
-            with open("settings.json", "r") as f:
+            with open("data//settings.json", "r") as f:
                 data = json.load(f)
 
             data["sound"] = True
 
-            with open("settings.json", "w") as f:
+            with open("data//settings.json", "w") as f:
                 json.dump(data, f, indent=4)
     # =====================================================
 
@@ -346,23 +346,23 @@ class SettingsMenu(ctk.CTkFrame):
             settings.musicenabled = False
             audio.stop("mainmenumusic")
 
-            with open("settings.json", "r") as f:
+            with open("data//settings.json", "r") as f:
                 data = json.load(f)
 
             data["music"] = False
 
-            with open("settings.json", "w") as f:
+            with open("data//settings.json", "w") as f:
                 json.dump(data, f, indent=4)
         else:
             self.music_box.configure(fg_color="white")
             settings.musicenabled = True
             audio.play_loop("mainmenumusic")
-            with open("settings.json", "r") as f:
+            with open("data//settings.json", "r") as f:
                 data = json.load(f)
 
             data["music"] = True
 
-            with open("settings.json", "w") as f:
+            with open("data//settings.json", "w") as f:
                 json.dump(data, f, indent=4)
 
 

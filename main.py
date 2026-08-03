@@ -23,13 +23,13 @@ class SpaceWarrior(ctk.CTk):
 
         self.current_screen = None
 
-        settings.musicenabled = json.load(open("settings.json"))["music"]
-        settings.soundenabled = json.load(open("settings.json"))["sound"]
+        settings.musicenabled = json.load(open("data//settings.json"))["music"]
+        settings.soundenabled = json.load(open("data//settings.json"))["sound"]
 
         self.show_menu()
 
 
-        from audio import audio
+        from engine.audio import audio
 
         audio.load(
             "click",
