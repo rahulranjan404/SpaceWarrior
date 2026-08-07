@@ -2,12 +2,13 @@ import json
 import os
 from datetime import datetime
 
+from data.paths import get_highscore_path
 
 class ScoreManager:
 
     def __init__(self):
 
-        self.file = "data//highscores.json"
+        self.file = get_highscore_path()
         self.score = 0
 
         self.data = self.load_data()

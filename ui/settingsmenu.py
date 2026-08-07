@@ -7,6 +7,8 @@ from engine.audio import audio
 import tkinter as tk
 import time
 
+from data.paths import get_settings_path
+
 from engine.background import StarField
 from entities.asteroid import Asteroid
 
@@ -58,7 +60,7 @@ class SettingsMenu(ctk.CTkFrame):
     def load_settings(self):
 
         try:
-            with open("settings.json", "r") as f:
+            with open(get_settings_path(), "r") as f:
                 return json.load(f)
 
         except:
@@ -69,7 +71,7 @@ class SettingsMenu(ctk.CTkFrame):
             }
     def save_settings(self):
         
-        with open("settings.json", "w") as f:
+        with open(get_settings_path(), "w") as f:
             json.dump(self.settings_data, f, indent=4)
 
             # ---------------- Main Box ----------------
