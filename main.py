@@ -56,7 +56,10 @@ class SpaceWarrior(ctk.CTk):
             "assets/sounds/bgsoundplayer.mp3"
         )
 
-
+        audio.load(
+            "explosionasteroid",
+            "assets/sounds/explosion2.mp3"
+        )
 
         # print("Loaded audio files")
 

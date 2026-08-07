@@ -453,7 +453,7 @@ class GameScreen(ctk.CTkFrame):
                     destroyed = asteroid.take_damage()
 
                     if destroyed:
-
+                        audio.play("explosionasteroid")
                         self.create_explosion(
                         asteroid_x,
                         asteroid_y,

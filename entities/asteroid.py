@@ -1,7 +1,7 @@
 import random
 from PIL import Image, ImageTk
 import settings
-
+from engine.audio import audio
 
 class Asteroid:
 
@@ -9,12 +9,9 @@ class Asteroid:
 
         self.canvas = canvas
 
-        # -----------------------------
-        # Random properties
-        # -----------------------------
         self.knockback_x = 0
         self.knockback_y = 0
-        self.speed_multiplier = 1.0
+        self.speed_multiplier = settings.speed_multiplier
         self.size = random.randint(
             settings.ASTEROID_MIN_SIZE,
             settings.ASTEROID_MAX_SIZE
@@ -46,9 +43,6 @@ class Asteroid:
             settings.ASTEROID_MAX_ROTATION_SPEED
         )
 
-        # -----------------------------
-        # Load random asteroid image
-        # -----------------------------
 
         image_path = random.choice(settings.ASTEROID_IMAGES)
 
@@ -77,7 +71,6 @@ class Asteroid:
             self.hp = 3
             self.mass = 3
 
-    # =====================================
 
     def update(self):
 
@@ -108,7 +101,6 @@ class Asteroid:
             self.y
         )
 
-    # =====================================
 
     def is_offscreen(self):
 
@@ -116,7 +108,6 @@ class Asteroid:
             self.y > settings.WINDOW_HEIGHT + self.size
         )
 
-    # =====================================
     def take_damage(self):
 
         self.hp -= 1
